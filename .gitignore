@@ -1,0 +1,11 @@
+# system / editor junk
+.DS_Store
+.Rhistory
+.RData
+.Rproj.user/
+
+# pipeline run outputs (regenerate with scripts/run_pipeline.sh)
+*_out/
+RAxML_*
+refpkg/
+*.jplace
