@@ -14,6 +14,11 @@
 set -euo pipefail
 OUTDIR=$1; REFS=$2; OG=$3; SHORT=$4; ISO=${5:-/dev/null}; NSEARCH=${6:-1000}
 
+# pick whichever threaded RAxML binary is installed (bioconda ships -AVX2)
+RAXML=$(command -v raxmlHPC-PTHREADS-AVX2 || command -v raxmlHPC-PTHREADS-AVX \
+     || command -v raxmlHPC-PTHREADS-SSE3 || command -v raxmlHPC-PTHREADS \
+     || command -v raxmlHPC) || { echo "no RAxML binary found" >&2; exit 1; }
+
 mkdir -p "$OUTDIR"; cd "$OUTDIR"
 cat "$REFS" "$ISO" "$OG" > input.fasta
 
@@ -24,9 +29,9 @@ vsearch --derep_fulllength input.fasta --output deduped.fasta
 mafft --auto --adjustdirection --thread 8 deduped.fasta > deduped_mafft.aln
 
 # 3. ML tree (+ automatic rooting placeholder + SH-like support)
-raxmlHPC-PTHREADS-AVX -T 8 -m GTRGAMMA -s deduped_mafft.aln -n raxml -f d -p 12354 -\# "$NSEARCH"
-raxmlHPC-PTHREADS-AVX -T 8 -m GTRGAMMA -f I -t RAxML_bestTree.raxml -n root
-raxmlHPC-PTHREADS-AVX -T 8 -m GTRGAMMA -f J -p 12354 -t RAxML_rootedTree.root -n conf -s deduped_mafft.aln
+"$RAXML" -T 8 -m GTRGAMMA -s deduped_mafft.aln -n raxml -f d -p 12354 -\# "$NSEARCH"
+"$RAXML" -T 8 -m GTRGAMMA -f I -t RAxML_bestTree.raxml -n root
+"$RAXML" -T 8 -m GTRGAMMA -f J -p 12354 -t RAxML_rootedTree.root -n conf -s deduped_mafft.aln
 
 # 4. add amplicon fragments to the reference alignment
 mafft --auto --addfragments "$SHORT" --keeplength --thread 8 deduped_mafft.aln > addfragments.fasta

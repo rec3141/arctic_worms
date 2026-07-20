@@ -1,0 +1,8 @@
+.git
+.github
+figures/
+*_out/
+RAxML_*
+refpkg/
+*.jplace
+.DS_Store

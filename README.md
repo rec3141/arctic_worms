@@ -53,6 +53,28 @@ for g in acoela rhabdocoela; do Rscript plot_kbd_panels.R $g; done
 Rscript plot_kbd_maps.R
 ```
 
+## Container / CI
+
+The full tree-building toolchain (vsearch, mafft, RAxML, taxtastic, pplacer,
+guppy, gappa) is packaged in a Docker image, built and smoke-tested by GitHub
+Actions (`.github/workflows/docker.yml`) on every push and published to GHCR:
+
+```bash
+docker pull ghcr.io/rec3141/arctic_worms:latest
+
+# reproduce a tree from the mounted repo (example: acoela, 1000 searches)
+docker run --rm -v "$PWD":/work -w /work ghcr.io/rec3141/arctic_worms:latest \
+  scripts/run_pipeline.sh acoela_out \
+    data/sequences/acoela_references.fst \
+    data/sequences/acoela_outgroups.fasta \
+    data/sequences/amplicons_platyhelminthes.fasta \
+    data/sequences/acoela_isolates.fst 1000
+```
+
+Build it locally instead with `docker build -t arctic_worms .`. The CI job runs
+the pipeline end-to-end on the macrostomorpha data (2 searches) to verify the
+whole chain produces a tree + placements.
+
 ## Methods notes
 
 - **Outgroups:** Acoela rooted on Nemertodermatida (*Nemertoderma westbladi*
