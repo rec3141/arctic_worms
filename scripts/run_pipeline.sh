@@ -19,6 +19,9 @@ RAXML=$(command -v raxmlHPC-PTHREADS-AVX2 || command -v raxmlHPC-PTHREADS-AVX \
      || command -v raxmlHPC-PTHREADS-SSE3 || command -v raxmlHPC-PTHREADS \
      || command -v raxmlHPC) || { echo "no RAxML binary found" >&2; exit 1; }
 
+# resolve inputs to absolute paths (we cd into OUTDIR below)
+REFS=$(realpath "$REFS"); OG=$(realpath "$OG"); SHORT=$(realpath "$SHORT"); ISO=$(realpath "$ISO")
+
 mkdir -p "$OUTDIR"; cd "$OUTDIR"
 cat "$REFS" "$ISO" "$OG" > input.fasta
 
