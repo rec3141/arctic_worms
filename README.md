@@ -44,6 +44,14 @@ scripts/run_pipeline.sh acoela_out \
 Rhabdocoela: swap in `rhabdocoela_*` + `catenulida_outgroups.fasta` + isolates.
 Macrostomorpha: `macrostomorpha_references.fas` + `catenulida_outgroups.fasta`, no isolates.
 
+Or rebuild **all three** groups at once and refresh `data/trees/`:
+
+```bash
+scripts/run_all.sh 1000        # nsearch; runs acoela, rhabdocoela, macrostomorpha
+# in the container:
+docker run --rm -v "$PWD":/work -w /work ghcr.io/rec3141/arctic_worms:latest scripts/run_all.sh 1000
+```
+
 **Figures** (R with `ape sf ggplot2 scatterpie rnaturalearth ggrepel`; run from `scripts/`):
 
 ```bash
