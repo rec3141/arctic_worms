@@ -9,7 +9,7 @@ on:
 jobs:
   build-test-push:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     permissions:
       contents: read
       packages: write
@@ -39,6 +39,16 @@ jobs:
               /dev/null 2
             test -s /tmp/macro/tog.nwk && test -s /tmp/macro/placements.csv
             echo "SMOKE TEST PASSED: $(grep -o ">" /tmp/macro/deduped.fasta | wc -l) refs, tree + placements produced"'
+
+      - name: Smoke-test figure generation (R + sf/PROJ + showtext)
+        run: |
+          docker run --rm arctic_worms:ci bash -c '
+            set -e
+            cd /arctic_worms
+            Rscript scripts/plot_placement_tree.R macrostomorpha
+            Rscript scripts/plot_kbd_maps.R
+            test -s figures/macrostomorpha_placement_tree.pdf && test -s figures/acoela_map_pie.pdf
+            echo "FIGURE TEST PASSED: $(ls figures/*.pdf | wc -l) PDFs"'
 
       - name: Log in to GHCR
         if: github.event_name == 'push'

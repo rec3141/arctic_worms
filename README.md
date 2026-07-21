@@ -86,9 +86,18 @@ docker run --rm -v "$PWD":/work -w /work ghcr.io/rec3141/arctic_worms:latest \
     data/sequences/acoela_isolates.fst 1000
 ```
 
-Build it locally instead with `docker build -t arctic_worms .`. The CI job runs
-the pipeline end-to-end on the macrostomorpha data (2 searches) to verify the
-whole chain produces a tree + placements.
+The image also carries the **R figure stack** (ape, sf, ggplot2, scatterpie,
+rnaturalearth, ggrepel, showtext), so it reproduces trees *and* figures:
+
+```bash
+# full reproduction into the mounted repo
+docker run --rm -v "$PWD":/work -w /work ghcr.io/rec3141/arctic_worms:latest bash -c \
+  "scripts/run_all.sh 1000 && scripts/make_figures.sh"
+```
+
+Build it locally instead with `docker build -t arctic_worms .`. CI builds the
+image and smoke-tests both the pipeline (macro, 2 searches → tree + placements)
+and figure generation (R + sf/PROJ + showtext → PDFs).
 
 ## Methods notes
 
