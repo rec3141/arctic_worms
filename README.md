@@ -52,7 +52,14 @@ scripts/run_all.sh 1000        # nsearch; runs acoela, rhabdocoela, macrostomorp
 docker run --rm -v "$PWD":/work -w /work ghcr.io/rec3141/arctic_worms:latest scripts/run_all.sh 1000
 ```
 
-**Figures** (R with `ape sf ggplot2 scatterpie rnaturalearth ggrepel`; run from `scripts/`):
+**Figures** (R with `ape sf ggplot2 scatterpie rnaturalearth ggrepel`, plus
+optional `showtext`+`sysfonts`; run from `scripts/`):
+
+> `scripts/_fonts.R` renders tree-figure text as vector outlines when
+> `showtext` and a sans font are available, so the PDFs display identically in
+> every viewer (macOS Preview otherwise mangles cairo's subsetted fonts). It
+> falls back to the device font if unavailable.
+
 
 ```bash
 cd scripts

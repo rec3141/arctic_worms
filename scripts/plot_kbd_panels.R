@@ -5,6 +5,7 @@
 # Outputs one PDF per panel in ./out so they can be laid out together.
 # ---------------------------------------------------------------------------
 suppressMessages(library(ape))
+source("_fonts.R")
 
 grp_arg <- commandArgs(trailingOnly = TRUE)
 group   <- if (length(grp_arg) >= 1) grp_arg[1] else "acoela"
@@ -127,7 +128,7 @@ draw_tree <- function(t, file, main, show_ref_labels, height, width=9){
   pcex <- ifelse(ct=="KBD", 1.7, ifelse(ct=="ASV", 1.0, ifelse(ct=="OG", 1.3, 0.7)))
   depth <- max(node.depth.edgelength(t)); n <- length(tl); off <- depth * 0.012
   # size the x extent so every tip label fits: use real tip x-positions + label widths (inches)
-  tf <- tempfile(fileext=".pdf"); pdf(tf, width=width, height=height); par(mar=c(1,1,3,1))
+  tf <- tempfile(fileext=".pdf"); pdf(tf, width=width, height=height); par(mar=c(1,1,3,1), family=FIGFAM)
   plot.phylo(t, cex=tcex, font=tfnt, root.edge=TRUE, label.offset=off, plot=FALSE, x.lim=c(0, depth*2))
   xx <- get("last_plot.phylo", envir=.PlotPhyloEnv)$xx[seq_len(n)]
   pw <- par("pin")[1]
@@ -135,7 +136,7 @@ draw_tree <- function(t, file, main, show_ref_labels, height, width=9){
   dev.off(); unlink(tf)
   xr <- 1.02 * max((xx + off) * pw / pmax(pw - lw - 0.05, 0.15))   # per-tip requirement
   cairo_pdf(file.path("../figures", file), width=width, height=height)
-  par(mar=c(1,1,3,1), xpd=NA)
+  par(mar=c(1,1,3,1), xpd=NA, family=FIGFAM)
   plot.phylo(t, cex=tcex, font=tfnt, tip.color=tcol, root.edge=TRUE,
              label.offset=off, edge.color="grey45", edge.width=0.8,
              x.lim=c(0, xr), y.lim=c(-1.5, n + 0.5))
@@ -163,7 +164,7 @@ draw_overview <- function(mode) {
   H <- if (mode == "pruned") max(3.5, n * 0.32) else 11
   suffix <- c(asis="", reflabels="_reflabels", pruned="_pruned")[mode]
   cairo_pdf(sprintf("../figures/%s_KBD_overview%s.pdf", group, suffix), width=8.5, height=H)
-  par(mar=c(1,1,3,1), xpd=NA)
+  par(mar=c(1,1,3,1), xpd=NA, family=FIGFAM)
 
   if (mode == "pruned") {
     lab <- ifelse(ct=="KBD", paste0("  ", fmt_kbd(tl)),

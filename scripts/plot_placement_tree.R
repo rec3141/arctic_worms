@@ -9,6 +9,7 @@
 #   group in {acoela, rhabdocoela, macrostomorpha}  (default: acoela)
 # ---------------------------------------------------------------------------
 suppressMessages({library(ape)})
+source("_fonts.R")
 
 args  <- commandArgs(trailingOnly = TRUE)
 group <- ifelse(length(args) >= 1, args[1], "acoela")
@@ -80,7 +81,7 @@ ptcex  <- ifelse(is_kbd, 1.5, ifelse(is_asv, 0.9, ifelse(is_og, 1.3, 0.35)))
 # --- draw ------------------------------------------------------------------
 n <- length(tips); h <- max(8, n * 0.115); depth <- max(node.depth.edgelength(tr))
 cairo_pdf(file.path("../figures", paste0(group, "_placement_tree.pdf")), width = 12, height = h)
-par(mar = c(1, 1, 3, 1), xpd = NA)
+par(mar = c(1, 1, 3, 1), xpd = NA, family = FIGFAM)
 plot.phylo(tr, type = "phylogram", cex = tipcex, font = tipfont, tip.color = tipcol,
            label.offset = depth * 0.006, edge.color = "grey45", edge.width = 0.6,
            x.lim = c(0, depth * 1.45), y.lim = c(-1.5, n + 0.5))
