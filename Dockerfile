@@ -24,7 +24,7 @@ ENV PROJ_DATA=/opt/conda/share/proj \
 
 WORKDIR /arctic_worms
 COPY . /arctic_worms
-RUN chmod +x scripts/*.sh scripts/*.R
+RUN chmod +x scripts/*.sh scripts/*.R && mkdir -p figures   # figures/ is .dockerignore'd
 
 # --- sanity: pipeline tools + R figure stack all resolve ------------------
 RUN vsearch --version 2>&1 | head -1 \
