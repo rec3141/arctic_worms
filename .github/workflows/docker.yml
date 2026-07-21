@@ -44,11 +44,11 @@ jobs:
         run: |
           docker run --rm arctic_worms:ci bash -c '
             set -e
-            cd /arctic_worms
-            Rscript scripts/plot_placement_tree.R macrostomorpha
-            Rscript scripts/plot_kbd_maps.R
-            test -s figures/macrostomorpha_placement_tree.pdf && test -s figures/acoela_map_pie.pdf
-            echo "FIGURE TEST PASSED: $(ls figures/*.pdf | wc -l) PDFs"'
+            cd /arctic_worms/scripts
+            Rscript plot_placement_tree.R macrostomorpha
+            Rscript plot_kbd_maps.R
+            test -s ../figures/macrostomorpha_placement_tree.pdf && test -s ../figures/acoela_map_pie.pdf
+            echo "FIGURE TEST PASSED: $(ls ../figures/*.pdf | wc -l) PDFs"'
 
       - name: Log in to GHCR
         if: github.event_name == 'push'
