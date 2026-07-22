@@ -92,4 +92,4 @@ legend("topright", inset = c(0.02, 0.02), bty = "n", pt.cex = c(1.5, 0.9, 1.3, 0
        pch = 19, col = c(col_kbd, col_asv, col_og, col_ref), text.font = c(2, 3, 3, 1), cex = 0.9,
        legend = c("KBD cultured isolate", "ASV amplicon (placed)", "Outgroup", "Reference 18S"))
 invisible(dev.off())
-cat("wrote out/", group, "_placement_tree.pdf  (", n, " tips )\n", sep = "")
+cat("wrote figures/", group, "_placement_tree.pdf  (", n, " tips )\n", sep = "")

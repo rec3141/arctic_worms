@@ -144,7 +144,7 @@ draw_tree <- function(t, file, main, show_ref_labels, height, width=9){
   add.scale.bar(x=depth*0.02, y=-0.7, length=0.05, cex=0.75, lwd=1.3, col="grey20")
   title(main=main, cex.main=1.25, font.main=1)
   invisible(dev.off())
-  cat("wrote out/", file, "  (", length(tl), " tips)\n", sep="")
+  cat("wrote figures/", file, "  (", length(tl), " tips)\n", sep="")
 }
 
 # --- KBD overview, three versions for comparison ---------------------------
@@ -177,7 +177,7 @@ draw_overview <- function(mode) {
     tiplabels(pch=19, col=tcol, cex=ifelse(ct=="KBD",1.9,1.3))
     add.scale.bar(x=depth*0.02, y=-0.6, length=0.05, cex=0.75, lwd=1.3, col="grey20")
     title(main=cfg$title, cex.main=1.3, font.main=1)
-    invisible(dev.off()); cat("wrote out/", group, "_KBD_overview", suffix, ".pdf  (", n, " tips)\n", sep=""); return(invisible())
+    invisible(dev.off()); cat("wrote figures/", group, "_KBD_overview", suffix, ".pdf  (", n, " tips)\n", sep=""); return(invisible())
   }
 
   plot.phylo(t, show.tip.label=FALSE, edge.color="grey55", edge.width=0.6,
@@ -204,7 +204,7 @@ draw_overview <- function(mode) {
   add.scale.bar(x=depth*0.02, y=-1, length=0.05, cex=0.75, lwd=1.3, col="grey20")
   title(main=cfg$title, cex.main=1.3, font.main=1)
   invisible(dev.off())
-  cat("wrote out/", group, "_KBD_overview", suffix, ".pdf  (", n, " tips)\n", sep="")
+  cat("wrote figures/", group, "_KBD_overview", suffix, ".pdf  (", n, " tips)\n", sep="")
 }
 for (m in c("asis","reflabels","pruned")) draw_overview(m)
 
